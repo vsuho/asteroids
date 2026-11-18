@@ -28,11 +28,14 @@ def gameloop():
             if event.type == pygame.QUIT:
                 return
 
+        # Update player object each frame
+        player.update(dt)
+
         # Fill the window with black
         screen.fill("black")
 
         player.draw(screen)
-        
+
         # Refresh the screen
         pygame.display.flip()
         
@@ -40,7 +43,7 @@ def gameloop():
         # divide it by 1000, so it returns as seconds
         # FPS capped at 60
         dt = clock.tick(60) / 1000
-        #print(dt)
+        
 
 
 def main():

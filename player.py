@@ -1,6 +1,6 @@
 import pygame
 from circleshape import CircleShape
-from constants import PLAYER_RADIUS, LINE_WIDTH
+from constants import PLAYER_RADIUS, LINE_WIDTH, PLAYER_TURN_SPEED
 
 class Player(CircleShape):
 
@@ -8,10 +8,23 @@ class Player(CircleShape):
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0.0
 
-        def draw(self, screen) -> None:
-            pygame.draw.polygon(screen, "white", self.triangle(), LINE_WIDTH)
+    def draw(self, screen) -> None:
+        pygame.draw.polygon(screen, "white", self.triangle(), LINE_WIDTH)
 
-    # in the Player class
+    def rotate(self, dt: float) -> None:
+        self.rotation += PLAYER_TURN_SPEED * dt
+
+    # Control sprite behaviour
+    def update(self, dt: float) -> None:
+        keys = pygame.key.get_pressed()
+
+        # a is pressed, rotate counter-clockwise
+        if keys[pygame.K_a]:
+            self.rotate(-dt)
+        # d is pressed, rotate clockwise
+        if keys[pygame.K_d]:
+            self.rotate(dt)
+
     def triangle(self) -> list[pygame.Vector2]:
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         right = pygame.Vector2(0, 1).rotate(self.rotation + 90) * self.radius / 1.5
@@ -19,6 +32,3 @@ class Player(CircleShape):
         b = self.position - forward * self.radius - right
         c = self.position - forward * self.radius + right
         return [a, b, c]
-
-    def draw(self, screen) -> None:
-        pygame.draw.polygon(screen, "white", self.triangle(), LINE_WIDTH)
