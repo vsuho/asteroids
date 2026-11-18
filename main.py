@@ -2,19 +2,22 @@ import pygame
 from constants import SCREEN_HEIGHT, SCREEN_WIDTH
 from logger import log_state
 
-# Initialize pygame
-pygame.init()
-
-# GUI window, filled with black color
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 def gameloop():
+    # Initialize pygame
+    pygame.init()
+
+    # GUI window, filled with black color
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+
     while True:
         log_state()
         # Process the pygame event que
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
+
         # Fill the window with black
         screen.fill("black")
         # Refresh the screen
