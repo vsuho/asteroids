@@ -2,7 +2,7 @@ import random
 from collections.abc import Callable
 
 import pygame
-from asteroid import Asteroid
+from classes.asteroid import Asteroid
 from constants import *
 
 # Copy pasted class from boot.dev, for spawning new asteroids

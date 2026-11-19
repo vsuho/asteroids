@@ -6,7 +6,7 @@ from initialize_game import *
 def gameloop():
 
     # Game initialization
-    screen, clock, updatable, drawable, asteroids, player = initialize_game()
+    screen, clock, updatable, drawable, asteroids, shots, player = initialize_game()
 
     # Delta time
     dt = 0.0

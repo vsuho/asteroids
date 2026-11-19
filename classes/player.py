@@ -1,5 +1,6 @@
 import pygame
-from circleshape import CircleShape
+from classes.circleshape import CircleShape
+from classes.shot import Shot
 from constants import *
 
 class Player(CircleShape):
@@ -23,6 +24,12 @@ class Player(CircleShape):
         rotated_with_speed_vector = rotated_vector * PLAYER_SPEED * dt
         self.position += rotated_with_speed_vector
 
+    # Method to shoot asteroids
+    def shoot(self) -> None:
+        shot = Shot(self.position.x, self.position.y)
+        direction = pygame.Vector2(0, 1).rotate(self.rotation)
+        shot.velocity = direction * PLAYER_SHOOT_SPEED
+
     # Control sprite behaviour
     def update(self, dt: float) -> None:
         keys = pygame.key.get_pressed()
@@ -41,6 +48,10 @@ class Player(CircleShape):
         # s is pressed, move backwards
         if keys[pygame.K_s]:
             self.move(-dt)
+
+        # space is pressed, shoot at players direction
+        if keys[pygame.K_SPACE]:
+            self.shoot()
 
     # Calculate and return three points of player ship,
     # this is then passed to the draw method

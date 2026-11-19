@@ -1,8 +1,8 @@
 import pygame
-from asteroidfield import AsteroidField
+from classes.asteroidfield import AsteroidField
 from constants import SCREEN_HEIGHT, SCREEN_WIDTH
 from create_groups import create_groups
-from player import Player
+from classes.player import Player
 
 def initialize_game():
     # Initialize pygame
@@ -13,7 +13,8 @@ def initialize_game():
 
     clock = pygame.time.Clock()
 
-    updatable, drawable, asteroids = create_groups()
+    # Return groups from helper function
+    updatable, drawable, asteroids, shots = create_groups()
 
     # AsteroidField instance
     af = AsteroidField()
@@ -23,5 +24,5 @@ def initialize_game():
     y = SCREEN_HEIGHT / 2
     player = Player(x, y)
 
-    return screen, clock, updatable, drawable, asteroids, player
+    return screen, clock, updatable, drawable, asteroids, shots, player
     
