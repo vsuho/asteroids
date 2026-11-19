@@ -23,11 +23,19 @@ def gameloop():
         # Update updatable objects each frame
         updatable.update(dt)
 
-        for a in asteroids:
-            if a.collides_with(player):
+        # Go through every asteroid in asteroids and check for collision
+        for asteroid in asteroids:
+            if asteroid.collides_with(player):
                 log_event("player_hit")
                 print("Game over!")
                 sys.exit()
+                
+            # Use the same asteroid for checking if each one is shot
+            for shot in shots:
+                if asteroid.collides_with(shot):
+                    log_event("asteroid_hit")
+                    asteroid.kill()
+                    shot.kill()
 
         # Fill the window with black
         screen.fill("black")
