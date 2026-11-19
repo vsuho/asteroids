@@ -8,6 +8,7 @@ class Player(CircleShape):
     def __init__(self, x: float, y: float) -> None:
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0.0
+        self.shoot_timer = 0.0
 
     # Method to draw the triangle
     def draw(self, screen: pygame.Surface) -> None:
@@ -26,6 +27,14 @@ class Player(CircleShape):
 
     # Method to shoot asteroids
     def shoot(self) -> None:
+
+        # If timer is still running, return without shooting
+        if self.shoot_timer > 0:
+            return
+        # Otherwise set the shoot timer to 0.3 s
+        self.shoot_timer = PLAYER_SHOOT_COOLDOWN_SECONDS
+
+        # Create the shot
         shot = Shot(self.position.x, self.position.y)
         direction = pygame.Vector2(0, 1).rotate(self.rotation)
         shot.velocity = direction * PLAYER_SHOOT_SPEED
@@ -33,6 +42,9 @@ class Player(CircleShape):
     # Control sprite behaviour
     def update(self, dt: float) -> None:
         keys = pygame.key.get_pressed()
+
+        # Decrease the shoot timer by the change in time (dt)
+        self.shoot_timer -= dt
 
         # a is pressed, rotate counter-clockwise
         if keys[pygame.K_a]:
