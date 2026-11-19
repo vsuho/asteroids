@@ -14,8 +14,8 @@ def gameloop():
     # Loop until the game ends
     while True:
         log_state()
-        # Process the pygame event que
 
+        # Process the pygame event que
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
@@ -29,17 +29,18 @@ def gameloop():
                 log_event("player_hit")
                 print("Game over!")
                 sys.exit()
-                
+
             # Use the same asteroid for checking if each one is shot
             for shot in shots:
                 if asteroid.collides_with(shot):
-                    log_event("asteroid_hit")
-                    asteroid.kill()
+                    log_event("asteroid_shot")
+                    asteroid.split()
                     shot.kill()
 
         # Fill the window with black
         screen.fill("black")
 
+        # Draw every drawable object to the game
         for d in drawable:
             d.draw(screen)
 
