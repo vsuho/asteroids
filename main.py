@@ -2,13 +2,31 @@ import pygame
 from constants import SCREEN_HEIGHT, SCREEN_WIDTH
 from logger import log_state
 from player import Player
-
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
 
 def gameloop():
+
+    # Pygame Groups
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    asteroids = pygame.sprite.Group()
+
+    # Add Player class to the groups
+    Player.containers = (updatable, drawable)
+
+    # Add Asteroid class to the groups
+    Asteroid.containers = (asteroids, updatable, drawable)
+
+    # Add AsteroidField class to updatable group, as it's not drawable or asteroid
+    AsteroidField.containers = (updatable)
+
+    af = AsteroidField()
 
     x = SCREEN_WIDTH / 2
     y = SCREEN_HEIGHT / 2
     player = Player(x, y)
+
 
     # Initialize pygame
     pygame.init()
@@ -28,13 +46,14 @@ def gameloop():
             if event.type == pygame.QUIT:
                 return
 
-        # Update player object each frame
-        player.update(dt)
+        # Update updatable objects each frame
+        updatable.update(dt)
 
         # Fill the window with black
         screen.fill("black")
 
-        player.draw(screen)
+        for d in drawable:
+            d.draw(screen)
 
         # Refresh the screen
         pygame.display.flip()
